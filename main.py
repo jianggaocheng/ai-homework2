@@ -104,16 +104,18 @@ def Load():
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
-        self.conv1 = torch.nn.Sequential(torch.nn.Conv2d(1, 1, 5, padding=2), torch.nn.ReLU(), torch.nn.MaxPool2d(2))
-        self.conv2 = torch.nn.Sequential(torch.nn.Conv2d(1, 2, 3, padding=1), torch.nn.ReLU(), torch.nn.MaxPool2d(2))
-        self.conv3 = torch.nn.Sequential(torch.nn.Conv2d(2, 4, 3, padding=1), torch.nn.ReLU(), torch.nn.MaxPool2d(2))
-        self.dense = torch.nn.Sequential(torch.nn.Linear(144, 64), torch.nn.ReLU(), torch.nn.Linear(64, 9))
+        self.conv1 = torch.nn.Sequential(torch.nn.Conv2d(1, 10, 5, padding=2), torch.nn.ReLU(), torch.nn.MaxPool2d(2))
+        self.conv2 = torch.nn.Sequential(torch.nn.Conv2d(10, 20, 3, padding=1), torch.nn.ReLU(), torch.nn.MaxPool2d(2))
+        self.conv3 = torch.nn.Sequential(torch.nn.Conv2d(20, 40, 3, padding=1), torch.nn.ReLU(), torch.nn.MaxPool2d(2))
+        self.conv4 = torch.nn.Sequential(torch.nn.Conv2d(40, 160, 3, padding=1), torch.nn.ReLU(), torch.nn.MaxPool2d(2))
+        self.dense = torch.nn.Sequential(torch.nn.Linear(1440, 64), torch.nn.ReLU(), torch.nn.Linear(64, 9))
 
     def forward(self, x):
         conv1_out = self.conv1(x)
         conv2_out = self.conv2(conv1_out)
         conv3_out = self.conv3(conv2_out)
-        res = conv3_out.view(conv3_out.size(0), -1)
+        conv4_out = self.conv4(conv3_out)
+        res = conv4_out.view(conv4_out.size(0), -1)
         out = self.dense(res)
         return F.log_softmax(out, dim=1)
 ########## End your code here ##########
