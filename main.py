@@ -74,7 +74,7 @@ class AIDataset(Dataset):
 
         # Normalization
 
-        img1 = cv2.normalize(img, None, 50, 180, cv2.NORM_MINMAX)
+        img1 = cv2.normalize(img, None, 80, 180, cv2.NORM_MINMAX)
 
         ret, img2 = cv2.threshold(img1, 127, 255, cv2.THRESH_BINARY)
 
